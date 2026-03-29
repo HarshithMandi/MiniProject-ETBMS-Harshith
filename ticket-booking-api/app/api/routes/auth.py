@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi.security import OAuth2PasswordRequestForm
 
 from app.controllers import auth_controller
 from app.core.dependencies import get_current_user
@@ -13,8 +14,23 @@ def register(payload: RegisterRequest) -> dict:
 
 
 @router.post("/login")
-def login(payload: LoginRequest) -> dict:
+async def login(request: Request) -> dict:
+    content_type = request.headers.get("content-type", "")
+    if "application/x-www-form-urlencoded" in content_type:
+        form = await request.form()
+        email = form.get("username") or form.get("email")
+        password = form.get("password")
+        if not email or not password:
+            raise HTTPException(status_code=422, detail="Missing username/email or password")
+        return auth_controller.login_with_password(email=email, password=password)
+
+    payload = LoginRequest.model_validate(await request.json())
     return auth_controller.login(payload)
+
+
+@router.post("/token")
+def token(form_data: OAuth2PasswordRequestForm = Depends()) -> dict:
+    return auth_controller.login_with_password(email=form_data.username, password=form_data.password)
 
 
 @router.get("/me")

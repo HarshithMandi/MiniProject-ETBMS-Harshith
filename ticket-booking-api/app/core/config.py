@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     api_v1_prefix: str = "/api/v1"
     debug: bool = False
 
-    mongodb_uri: str = "mongodb://mongo:27017"
+    mongodb_uri: str = "mongodb://localhost:27017"
     mongodb_db: str = "ticket_booking"
 
     redis_host: str = "redis"
