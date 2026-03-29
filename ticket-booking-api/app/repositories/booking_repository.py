@@ -9,7 +9,7 @@ class BookingRepository:
     def __init__(self) -> None:
         self.collection = get_database()["bookings"]
 
-    def create_booking(self, user_id: str, event_id: str, seat_numbers: list[str], status: str) -> dict[str, Any]:
+    def create_booking(self, user_id: str, event_id: str, seat_numbers: list[str], status: str) -> dict[str, Any] | None:
         payload = {
             "user_id": object_id(user_id),
             "event_id": object_id(event_id),

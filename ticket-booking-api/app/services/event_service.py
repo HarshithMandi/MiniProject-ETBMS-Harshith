@@ -1,3 +1,5 @@
+from typing import Any
+
 from bson import ObjectId
 
 from app.exceptions.custom_exceptions import ForbiddenException, NotFoundException
@@ -12,15 +14,22 @@ class EventService:
         self.event_repository = EventRepository()
         self.seat_repository = SeatRepository()
 
-    def list_events(self) -> list[dict]:
-        return [serialize_mongo(event) for event in self.event_repository.list_events()]
+    def list_events(self) -> list[dict[str, Any]]:
+        events: list[dict[str, Any]] = []
+        for event in self.event_repository.list_events():
+            parsed = serialize_mongo(event)
+            if parsed is not None:
+                events.append(parsed)
+        return events
 
-    def create_event(self, organizer_id: str, payload: dict) -> dict:
+    def create_event(self, organizer_id: str, payload: dict[str, Any]) -> dict[str, Any]:
         event_payload = {
             **payload,
             "organizer_id": ObjectId(organizer_id),
         }
         event = self.event_repository.create_event(event_payload)
+        if event is None:
+            raise NotFoundException("Event creation failed")
 
         total_seats = int(payload["total_seats"])
         seats = [
@@ -32,9 +41,12 @@ class EventService:
             for i in range(1, total_seats + 1)
         ]
         self.seat_repository.create_many(seats)
-        return serialize_mongo(event)
+        parsed = serialize_mongo(event)
+        if parsed is None:
+            raise NotFoundException("Event creation failed")
+        return parsed
 
-    def update_event(self, event_id: str, organizer_id: str, payload: dict) -> dict:
+    def update_event(self, event_id: str, organizer_id: str, payload: dict[str, Any]) -> dict[str, Any]:
         event = self.event_repository.get_by_id(event_id)
         if not event:
             raise NotFoundException("Event not found")
@@ -42,7 +54,10 @@ class EventService:
             raise ForbiddenException("Only the event organizer can update this event")
 
         updated = self.event_repository.update_event(event_id, payload)
-        return serialize_mongo(updated)
+        parsed = serialize_mongo(updated)
+        if parsed is None:
+            raise NotFoundException("Event not found")
+        return parsed
 
     def delete_event(self, event_id: str, organizer_id: str) -> None:
         event = self.event_repository.get_by_id(event_id)

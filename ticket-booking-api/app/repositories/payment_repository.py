@@ -9,7 +9,7 @@ class PaymentRepository:
     def __init__(self) -> None:
         self.collection = get_database()["payments"]
 
-    def create_payment(self, booking_id: str, amount: float, status: str) -> dict[str, Any]:
+    def create_payment(self, booking_id: str, amount: float, status: str) -> dict[str, Any] | None:
         payload = {
             "booking_id": object_id(booking_id),
             "amount": amount,

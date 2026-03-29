@@ -8,7 +8,7 @@ class EventRepository:
     def __init__(self) -> None:
         self.collection = get_database()["events"]
 
-    def create_event(self, payload: dict[str, Any]) -> dict[str, Any]:
+    def create_event(self, payload: dict[str, Any]) -> dict[str, Any] | None:
         inserted = self.collection.insert_one(payload)
         return self.collection.find_one({"_id": inserted.inserted_id})
 

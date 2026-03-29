@@ -1,3 +1,5 @@
+from typing import Any
+
 from redis import Redis
 
 from app.core.config import get_settings
@@ -14,8 +16,13 @@ class SeatService:
         self.lock_ttl = settings.seat_lock_ttl_seconds
         self.repository = SeatRepository()
 
-    def list_event_seats(self, event_id: str) -> list[dict]:
-        return [serialize_mongo(seat) for seat in self.repository.list_by_event(event_id)]
+    def list_event_seats(self, event_id: str) -> list[dict[str, Any]]:
+        seats: list[dict[str, Any]] = []
+        for seat in self.repository.list_by_event(event_id):
+            parsed = serialize_mongo(seat)
+            if parsed is not None:
+                seats.append(parsed)
+        return seats
 
     def lock_seats(self, event_id: str, seat_numbers: list[str], user_id: str) -> None:
         seats = self.repository.list_by_event_and_numbers(event_id, seat_numbers)
