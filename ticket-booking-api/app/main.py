@@ -9,6 +9,7 @@ from app.core.database import close_mongo_connection, connect_to_mongo
 from app.exceptions.exception_handlers import register_exception_handlers
 from app.middleware.logging_middleware import logging_middleware
 from app.middleware.rate_limiter import rate_limiter
+from app.utils.seed_demo_users import ensure_demo_users
 
 settings = get_settings()
 
@@ -16,6 +17,8 @@ settings = get_settings()
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     connect_to_mongo()
+    if settings.seed_demo_users:
+        ensure_demo_users()
     yield
     close_mongo_connection()
 

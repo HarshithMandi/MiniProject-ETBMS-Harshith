@@ -23,6 +23,7 @@ def get_current_user(token: str = Depends(oauth2_scheme)) -> dict[str, Any]:
     user = get_database()["users"].find_one({"email": email})
     if not user:
         raise UnauthorizedException("User does not exist")
+    user.pop("password", None)
     return serialize_mongo(user)
 
 

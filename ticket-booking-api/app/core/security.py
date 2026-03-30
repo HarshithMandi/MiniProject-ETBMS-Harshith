@@ -20,7 +20,41 @@ def hash_password(password: str) -> str:
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(_prehash_password(plain_password), hashed_password)
+    # Current scheme: bcrypt(sha256(password))
+    try:
+        if pwd_context.verify(_prehash_password(plain_password), hashed_password):
+            return True
+    except Exception:
+        pass
+
+    # Legacy scheme (older accounts): bcrypt(password)
+    try:
+        return pwd_context.verify(plain_password, hashed_password)
+    except Exception:
+        return False
+
+
+def is_legacy_password_hash(plain_password: str, hashed_password: str) -> bool:
+    """Returns True if the stored hash matches the legacy scheme.
+
+    Legacy scheme was: bcrypt(password)
+    Current scheme is: bcrypt(sha256(password))
+    """
+
+    try:
+        legacy_ok = pwd_context.verify(plain_password, hashed_password)
+    except Exception:
+        return False
+
+    if not legacy_ok:
+        return False
+
+    try:
+        current_ok = pwd_context.verify(_prehash_password(plain_password), hashed_password)
+    except Exception:
+        current_ok = False
+
+    return not current_ok
 
 
 def create_access_token(subject: str, expires_delta: timedelta | None = None) -> str:
