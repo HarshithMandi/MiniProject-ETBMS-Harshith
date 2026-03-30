@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth.js';
 import { useBooking } from '../hooks/useBooking.js';
 import { bookingApi, paymentApi } from '../api/endpoints.js';
 import { ErrorMessage, SuccessMessage, Loader } from '../components/Loader.jsx';
@@ -9,7 +8,6 @@ import { formatCurrency } from '../utils/helpers.js';
 export const Payment = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
   const { currentBooking, clearBooking } = useBooking();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -48,6 +46,28 @@ export const Payment = () => {
     return true;
   };
 
+  const getApiErrorMessage = (err, fallback) => {
+    const data = err?.response?.data;
+    const detail = data?.detail;
+
+    if (typeof detail === 'string' && detail.trim()) return detail;
+    if (Array.isArray(detail) && detail.length > 0) {
+      const msgs = detail
+        .map((d) => (typeof d?.msg === 'string' ? d.msg : null))
+        .filter(Boolean);
+      if (msgs.length > 0) return msgs.join(', ');
+      try {
+        return JSON.stringify(detail);
+      } catch {
+        return fallback;
+      }
+    }
+    if (typeof data?.message === 'string' && data.message.trim()) return data.message;
+    if (typeof err?.message === 'string' && err.message.trim()) return err.message;
+
+    return fallback;
+  };
+
   const handlePayment = async (e) => {
     e.preventDefault();
     setMessage('');
@@ -61,18 +81,31 @@ export const Payment = () => {
     try {
       setLoading(true);
 
+      const eventId = currentBooking.eventId || id;
+      if (!eventId) {
+        setMessage('Missing event information. Please go back and try again.');
+        setLoading(false);
+        return;
+      }
+
       // Create booking first
       let booking;
       try {
         const bookingResponse = await bookingApi.createBooking({
-          event_id: currentBooking.eventId,
+          event_id: eventId,
           seat_numbers: currentBooking.selectedSeats.map((s) => s.seat_number),
         });
         booking = bookingResponse.data;
       } catch (bookingErr) {
         console.error('Booking creation error:', bookingErr);
-        const errMsg = bookingErr.response?.data?.detail || bookingErr.message || 'Failed to create booking';
-        setMessage(`Error creating booking: ${errMsg}`);
+        setMessage(`Error creating booking: ${getApiErrorMessage(bookingErr, 'Failed to create booking')}`);
+        setLoading(false);
+        return;
+      }
+
+      const bookingId = booking?.id || booking?._id;
+      if (!bookingId) {
+        setMessage('Booking was created, but no booking ID was returned.');
         setLoading(false);
         return;
       }
@@ -81,15 +114,12 @@ export const Payment = () => {
       let paymentResponse;
       try {
         paymentResponse = await paymentApi.processPayment({
-          booking_id: booking.id,
+          booking_id: bookingId,
           amount: currentBooking.totalPrice,
-          payment_method: 'card',
-          card_details: cardDetails,
         });
       } catch (paymentErr) {
         console.error('Payment error:', paymentErr);
-        const errMsg = paymentErr.response?.data?.detail || paymentErr.message || 'Failed to process payment';
-        setMessage(`Error processing payment: ${errMsg}`);
+        setMessage(`Error processing payment: ${getApiErrorMessage(paymentErr, 'Failed to process payment')}`);
         setLoading(false);
         return;
       }
@@ -97,7 +127,7 @@ export const Payment = () => {
       // Payment successful - confirm booking
       if (paymentResponse.data) {
         try {
-          await bookingApi.confirmBooking(booking.id);
+          await bookingApi.confirmBooking(bookingId);
         } catch (confirmErr) {
           console.warn('Booking confirmation had an issue, but payment succeeded', confirmErr);
         }

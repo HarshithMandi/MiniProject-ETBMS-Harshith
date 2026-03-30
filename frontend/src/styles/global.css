@@ -57,6 +57,15 @@ p, span, label, li {
   color: var(--text-secondary);
 }
 
+/*
+  Global base styles above set colors on elements directly.
+  When a parent uses Tailwind `text-white`, children should inherit that color.
+  Use CSS inheritance (not `@apply`) to avoid circular dependency.
+*/
+.text-white :is(h1, h2, h3, h4, h5, h6, p, span, label, li, a) {
+  color: inherit;
+}
+
 button, input, select, textarea {
   font: inherit;
 }
