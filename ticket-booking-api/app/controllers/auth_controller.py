@@ -10,3 +10,7 @@ def register(payload: RegisterRequest) -> dict:
 
 def login(payload: LoginRequest) -> dict:
     return service.login(email=payload.email, password=payload.password)
+
+
+def login_with_password(email: str, password: str) -> dict:
+    return service.login(email=email, password=password)

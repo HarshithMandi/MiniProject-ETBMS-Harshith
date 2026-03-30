@@ -8,7 +8,7 @@ from app.core.security import decode_access_token
 from app.exceptions.custom_exceptions import ForbiddenException, UnauthorizedException
 from app.utils.helpers import object_id, serialize_mongo
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/token")
 
 
 def get_current_user(token: str = Depends(oauth2_scheme)) -> dict[str, Any]:
