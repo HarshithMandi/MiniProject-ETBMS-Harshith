@@ -23,7 +23,7 @@ A React-based frontend for the Event Ticket Booking & Management System.
 
 - Node.js 16+ 
 - npm or yarn
-- Backend API running on `http://localhost:8000`
+- Backend API running on `http://localhost:8000` (API routes are under `/api/v1`)
 
 ## Installation
 
@@ -35,8 +35,7 @@ npm install
 2. **Configure environment variables**:
 Create a `.env` file in the project root:
 ```
-VITE_API_BASE_URL=http://localhost:8000
-VITE_MONGODB_URI=mongodb+srv://harshithmandi:super-secret-password@cluster0.qyrt8d7.mongodb.net/
+VITE_API_BASE_URL=http://localhost:8000/api/v1
 ```
 
 ## Development

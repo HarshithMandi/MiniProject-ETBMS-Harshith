@@ -175,8 +175,7 @@ npm install
 3. **Configure environment:**
 Create/update `.env`:
 ```env
-VITE_API_BASE_URL=http://localhost:8000
-VITE_MONGODB_URI=mongodb+srv://harshithmandi:super-secret-password@cluster0.qyrt8d7.mongodb.net/
+VITE_API_BASE_URL=http://localhost:8000/api/v1
 ```
 
 4. **Run development server:**

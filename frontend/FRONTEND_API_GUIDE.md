@@ -108,7 +108,7 @@ frontend/
 
 ### Base Configuration
 
-**API Endpoint:** `http://localhost:8000`
+**API Endpoint:** `http://localhost:8000/api/v1`
 
 **Axios Instance** (`src/api/axiosInstance.js`):
 ```javascript
