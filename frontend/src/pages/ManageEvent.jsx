@@ -108,7 +108,7 @@ export const ManageEvent = () => {
             {/* Event Details */}
             <div className="bg-white rounded-lg shadow-md p-6">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold">🎭 Event Details</h2>
+                <h2 className="text-2xl font-bold">Event Details</h2>
                 <button
                   onClick={() => {
                     setEdit(!edit);
@@ -238,7 +238,7 @@ export const ManageEvent = () => {
 
             {/* Delete Event */}
             <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-              <h3 className="text-lg font-bold text-red-800 mb-3">⚠️ Danger Zone</h3>
+              <h3 className="text-lg font-bold text-red-800 mb-3">Danger Zone</h3>
               <button
                 onClick={handleDeleteEvent}
                 className="w-full bg-red-600 text-white py-2 rounded-lg font-bold hover:bg-red-700"
@@ -251,7 +251,7 @@ export const ManageEvent = () => {
           {/* Sidebar - Seat Statistics */}
           <div className="space-y-6">
             <div className="bg-white rounded-lg shadow-md p-6">
-              <h3 className="text-xl font-bold mb-4">📊 Seat Statistics</h3>
+              <h3 className="text-xl font-bold mb-4">Seat Statistics</h3>
               <div className="space-y-4">
                 <div className="bg-green-50 p-4 rounded border border-green-200">
                   <p className="text-green-600 font-semibold text-sm">Available</p>
@@ -276,12 +276,12 @@ export const ManageEvent = () => {
             </div>
 
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-              <h3 className="text-lg font-bold text-blue-800 mb-3">💡 Tips</h3>
+              <h3 className="text-lg font-bold text-blue-800 mb-3">Tips</h3>
               <ul className="space-y-2 text-sm text-blue-700">
-                <li>✓ Edit event details anytime</li>
-                <li>✓ Monitor seat availability</li>
-                <li>✓ Lock seats prevent double booking</li>
-                <li>✓ Only admins can delete users</li>
+                <li>Edit event details anytime</li>
+                <li>Monitor seat availability</li>
+                <li>Lock seats to prevent double booking</li>
+                <li>Only admins can delete users</li>
               </ul>
             </div>
           </div>

@@ -19,7 +19,7 @@ export const Navbar = () => {
     <nav className="bg-indigo-600 text-white shadow-lg">
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         <Link to="/" className="text-2xl font-bold">
-          🎫 TicketHub
+          BookYourShow
         </Link>
 
         <div className="hidden md:flex space-x-6 items-center">
@@ -48,8 +48,8 @@ export const Navbar = () => {
                   onClick={() => setShowMenu(!showMenu)}
                   className="flex items-center space-x-2 hover:text-indigo-200"
                 >
-                  <span>{user?.email}</span>
-                  <span>▼</span>
+                  <span className="text-white">{user?.email}</span>
+                  <span className="text-white">▼</span>
                 </button>
                 {showMenu && (
                   <div className="absolute right-0 mt-2 bg-white text-gray-800 rounded shadow-lg w-48 z-50">

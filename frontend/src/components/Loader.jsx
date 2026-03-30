@@ -19,7 +19,7 @@ export const ErrorMessage = ({ message, onDismiss }) => {
       <span>{message}</span>
       {onDismiss && (
         <button onClick={onDismiss} className="ml-2 text-red-700 font-bold">
-          ✕
+          x
         </button>
       )}
     </div>
@@ -32,7 +32,7 @@ export const SuccessMessage = ({ message, onDismiss }) => {
       <span>{message}</span>
       {onDismiss && (
         <button onClick={onDismiss} className="ml-2 text-green-700 font-bold">
-          ✕
+          x
         </button>
       )}
     </div>

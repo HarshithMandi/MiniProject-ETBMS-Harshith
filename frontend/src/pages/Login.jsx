@@ -32,7 +32,7 @@ export const Login = () => {
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
         <div className="p-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-2 text-center">
-            🎫 TicketHub
+            BookYourShow
           </h1>
           <p className="text-gray-600 text-center mb-6">Sign in to your account</p>
 

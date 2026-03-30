@@ -88,7 +88,7 @@ export const AdminDashboard = () => {
     <div className="min-h-screen bg-gray-50">
       <div className="bg-gradient-to-r from-red-600 to-red-800 text-white py-12">
         <div className="max-w-6xl mx-auto px-4">
-          <h1 className="text-4xl font-bold">🔐 Admin Dashboard</h1>
+          <h1 className="text-4xl font-bold">Admin Dashboard</h1>
           <p className="text-red-100 mt-2">System analytics and management</p>
         </div>
       </div>
@@ -110,7 +110,7 @@ export const AdminDashboard = () => {
                 : 'border-transparent text-gray-600 hover:text-gray-800'
             }`}
           >
-            📊 Revenue Reports
+            Revenue Reports
           </button>
           <button
             onClick={() => setTab('users')}
@@ -120,7 +120,7 @@ export const AdminDashboard = () => {
                 : 'border-transparent text-gray-600 hover:text-gray-800'
             }`}
           >
-            👥 Users Management
+            Users Management
           </button>
         </div>
 

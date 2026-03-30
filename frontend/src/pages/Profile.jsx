@@ -27,7 +27,7 @@ export const Profile = () => {
     <div className="min-h-screen bg-gray-50">
       <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h1 className="text-4xl font-bold">👤 My Profile</h1>
+          <h1 className="text-4xl font-bold">My Profile</h1>
         </div>
       </div>
 
@@ -97,39 +97,39 @@ export const Profile = () => {
         {/* Role specific info */}
         {userProfile?.role === 'customer' && (
           <div className="bg-blue-50 rounded-lg border border-blue-200 p-6 mt-8">
-            <h3 className="text-lg font-bold text-blue-800 mb-3">🎫 Customer Benefits</h3>
+            <h3 className="text-lg font-bold text-blue-800 mb-3">Customer Benefits</h3>
             <ul className="space-y-2 text-sm text-blue-700">
-              <li>✓ Browse and search events</li>
-              <li>✓ Select and lock seats</li>
-              <li>✓ Secure payment processing</li>
-              <li>✓ View booking history</li>
-              <li>✓ Cancel bookings</li>
+              <li>Browse and search events</li>
+              <li>Select and lock seats</li>
+              <li>Secure payment processing</li>
+              <li>View booking history</li>
+              <li>Cancel bookings</li>
             </ul>
           </div>
         )}
 
         {userProfile?.role === 'organizer' && (
           <div className="bg-green-50 rounded-lg border border-green-200 p-6 mt-8">
-            <h3 className="text-lg font-bold text-green-800 mb-3">🎭 Organizer Features</h3>
+            <h3 className="text-lg font-bold text-green-800 mb-3">Organizer Features</h3>
             <ul className="space-y-2 text-sm text-green-700">
-              <li>✓ Create new events</li>
-              <li>✓ Manage event details</li>
-              <li>✓ Configure seats</li>
-              <li>✓ Track bookings</li>
-              <li>✓ View analytics</li>
+              <li>Create new events</li>
+              <li>Manage event details</li>
+              <li>Configure seats</li>
+              <li>Track bookings</li>
+              <li>View analytics</li>
             </ul>
           </div>
         )}
 
         {userProfile?.role === 'admin' && (
           <div className="bg-red-50 rounded-lg border border-red-200 p-6 mt-8">
-            <h3 className="text-lg font-bold text-red-800 mb-3">🔐 Admin Privileges</h3>
+            <h3 className="text-lg font-bold text-red-800 mb-3">Admin Privileges</h3>
             <ul className="space-y-2 text-sm text-red-700">
-              <li>✓ View system reports</li>
-              <li>✓ Monitor revenue</li>
-              <li>✓ Manage users</li>
-              <li>✓ View payment analytics</li>
-              <li>✓ System configuration</li>
+              <li>View system reports</li>
+              <li>Monitor revenue</li>
+              <li>Manage users</li>
+              <li>View payment analytics</li>
+              <li>System configuration</li>
             </ul>
           </div>
         )}

@@ -21,13 +21,13 @@ export const BookingCard = ({ booking, onCancel, onRetry }) => {
   const getStatusIcon = (status) => {
     switch (status) {
       case BOOKING_STATUS.CONFIRMED:
-        return '✓';
+        return 'Confirmed';
       case BOOKING_STATUS.PENDING:
-        return '⏳';
+        return 'Pending';
       case BOOKING_STATUS.CANCELLED:
-        return '✕';
+        return 'Cancelled';
       default:
-        return '?';
+        return 'Status';
     }
   };
 
@@ -39,10 +39,10 @@ export const BookingCard = ({ booking, onCancel, onRetry }) => {
             {booking.event?.title || 'Event'}
           </h3>
           <p className="text-gray-600 text-sm mb-1">
-            📅 {formatDate(booking.created_at)}
+            {formatDate(booking.created_at)}
           </p>
           <p className="text-gray-600 text-sm">
-            🎫 Seat{booking.seat_numbers?.length > 1 ? 's' : ''}: {booking.seat_numbers?.join(', ')}
+            Seat{booking.seat_numbers?.length > 1 ? 's' : ''}: {booking.seat_numbers?.join(', ')}
           </p>
         </div>
         <span
@@ -50,7 +50,7 @@ export const BookingCard = ({ booking, onCancel, onRetry }) => {
             booking.status
           )}`}
         >
-          {getStatusIcon(booking.status)} {booking.status?.toUpperCase()}
+          {getStatusIcon(booking.status)}
         </span>
       </div>
 

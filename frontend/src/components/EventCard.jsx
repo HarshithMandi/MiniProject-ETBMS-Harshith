@@ -19,7 +19,7 @@ export const EventCard = ({ event }) => {
       className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden cursor-pointer"
     >
       <div className="bg-gradient-to-r from-indigo-500 to-purple-600 h-40 flex items-center justify-center text-white text-4xl">
-        🎭
+        Event
       </div>
       <div className="p-4">
         <div className="flex justify-between items-start mb-2">
@@ -31,14 +31,14 @@ export const EventCard = ({ event }) => {
           </span>
         </div>
         <p className="text-gray-600 text-sm line-clamp-2 mb-3">
-          📍 {event.venue}
+          Venue: {event.venue}
         </p>
         <p className="text-gray-600 text-sm mb-3">
-          📅 {formatDate(event.date)}
+          Date: {formatDate(event.date)}
         </p>
         <div className="flex justify-between items-center text-sm">
           <span className="text-gray-600">
-            👥 {event.total_seats} seats
+            {event.total_seats} seats
           </span>
           <button 
             onClick={handleViewDetails}

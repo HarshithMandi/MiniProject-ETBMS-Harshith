@@ -234,7 +234,7 @@ export const Payment = () => {
               </form>
 
               <p className="text-sm text-gray-500 mt-4">
-                💳 Use test card: 4242 4242 4242 4242 | Any expiry (future) | Any CVV
+                Use test card: 4242 4242 4242 4242 | Any expiry (future) | Any CVV
               </p>
             </div>
           </div>
