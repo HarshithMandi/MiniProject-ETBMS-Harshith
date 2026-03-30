@@ -1,0 +1,61 @@
+# Frontend Docker Compose Configuration
+# This file is for local development with the frontend only
+# For full stack deployment, use the root docker-compose.yml
+
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ticket-booking-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_BASE_URL=http://backend:8000
+    depends_on:
+      - backend
+    networks:
+      - ticketing-network
+
+  backend:
+    build:
+      context: ../ticket-booking-api
+      dockerfile: Dockerfile
+    container_name: ticket-booking-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGODB_URL=mongodb://mongo:27017
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - mongo
+      - redis
+    networks:
+      - ticketing-network
+
+  mongo:
+    image: mongo:latest
+    container_name: ticket-booking-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - ticketing-network
+
+  redis:
+    image: redis:latest
+    container_name: ticket-booking-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - ticketing-network
+
+networks:
+  ticketing-network:
+    driver: bridge
+
+volumes:
+  mongo_data:
