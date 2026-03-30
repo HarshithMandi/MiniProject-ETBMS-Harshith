@@ -22,12 +22,29 @@ export const AuthProvider = ({ children }) => {
   const register = useCallback(async (email, password, role = 'customer') => {
     try {
       setError(null);
-      const response = await authApi.register({ email, password, role });
-      const { access_token, user: userData } = response.data;
-      setToken(access_token);
-      setUser(userData);
-      setUserState(userData);
-      return { success: true, data: userData };
+      const normalizedEmail = (email || '').trim().toLowerCase();
+      const response = await authApi.register({ email: normalizedEmail, password, role });
+      const { access_token, user: userData } = response.data || {};
+
+      if (access_token) {
+        setToken(access_token);
+      }
+
+      if (userData) {
+        setUser(userData);
+        setUserState(userData);
+        return { success: true, data: userData };
+      }
+
+      // Fallback: if backend didn't include user, fetch it.
+      if (access_token) {
+        const me = await authApi.getProfile();
+        setUser(me.data);
+        setUserState(me.data);
+        return { success: true, data: me.data };
+      }
+
+      return { success: true, data: null };
     } catch (err) {
       const message = err.response?.data?.detail || 'Registration failed';
       setError(message);
@@ -38,12 +55,29 @@ export const AuthProvider = ({ children }) => {
   const login = useCallback(async (email, password) => {
     try {
       setError(null);
-      const response = await authApi.login({ email, password });
-      const { access_token, user: userData } = response.data;
-      setToken(access_token);
-      setUser(userData);
-      setUserState(userData);
-      return { success: true, data: userData };
+      const normalizedEmail = (email || '').trim().toLowerCase();
+      const response = await authApi.login({ email: normalizedEmail, password });
+      const { access_token, user: userData } = response.data || {};
+
+      if (access_token) {
+        setToken(access_token);
+      }
+
+      if (userData) {
+        setUser(userData);
+        setUserState(userData);
+        return { success: true, data: userData };
+      }
+
+      // Fallback: if backend didn't include user, fetch it.
+      if (access_token) {
+        const me = await authApi.getProfile();
+        setUser(me.data);
+        setUserState(me.data);
+        return { success: true, data: me.data };
+      }
+
+      return { success: true, data: null };
     } catch (err) {
       const message = err.response?.data?.detail || 'Login failed';
       setError(message);

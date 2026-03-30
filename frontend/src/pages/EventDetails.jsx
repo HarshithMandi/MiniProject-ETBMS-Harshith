@@ -7,6 +7,7 @@ import { useBooking } from '../hooks/useBooking.js';
 import { formatDate, formatCurrency } from '../utils/helpers.js';
 import { Loader, ErrorMessage } from '../components/Loader.jsx';
 import { ROLES, normalizeRole } from '../utils/constants.js';
+import { getToken } from '../utils/token.js';
 
 export const EventDetails = () => {
   const { id } = useParams();
@@ -17,7 +18,9 @@ export const EventDetails = () => {
   const { data: event, loading, error } = useFetch(() => eventApi.getEvent(id), [id]);
 
   const handleBookingStart = () => {
-    if (!isAuthenticated) {
+    const token = getToken();
+
+    if (!token || !isAuthenticated) {
       navigate('/login');
       return;
     }
@@ -123,7 +126,7 @@ export const EventDetails = () => {
                 </button>
               ) : (
                 <button
-                  onClick={() => navigate('/login')}
+                  onClick={handleBookingStart}
                   className="w-full bg-indigo-600 text-white py-3 rounded-lg font-bold hover:bg-indigo-700 transition"
                 >
                   Login to Book
