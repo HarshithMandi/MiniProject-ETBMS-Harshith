@@ -5,6 +5,8 @@
 • Admin → monitor revenue & system
 
 
-- > Current Implemetation
-- Backend FastAPI files and endpoint configuration
-- MongoDB integration
+- > v1
+  >  Backend FastAPI files and endpoint configuration
+  >  MongoDB integration
+-  > v2
+   > implemented Frontend using Vite
