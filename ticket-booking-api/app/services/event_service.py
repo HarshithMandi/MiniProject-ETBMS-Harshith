@@ -22,6 +22,15 @@ class EventService:
                 events.append(parsed)
         return events
 
+    def get_event(self, event_id: str) -> dict[str, Any]:
+        event = self.event_repository.get_by_id(event_id)
+        if not event:
+            raise NotFoundException("Event not found")
+        parsed = serialize_mongo(event)
+        if parsed is None:
+            raise NotFoundException("Event not found")
+        return parsed
+
     def create_event(self, organizer_id: str, payload: dict[str, Any]) -> dict[str, Any]:
         event_payload = {
             **payload,

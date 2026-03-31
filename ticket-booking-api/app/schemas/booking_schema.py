@@ -11,6 +11,7 @@ class BookingResponse(BaseModel):
     user_id: str
     event_id: str
     seat_numbers: list[str]
+    total_price: float
     status: str
     created_at: str
 

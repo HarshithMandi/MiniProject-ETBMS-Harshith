@@ -8,6 +8,10 @@ def list_events() -> list[dict]:
     return service.list_events()
 
 
+def get_event(event_id: str) -> dict:
+    return service.get_event(event_id=event_id)
+
+
 def create_event(payload: EventCreateRequest, organizer_id: str) -> dict:
     return service.create_event(organizer_id=organizer_id, payload=payload.model_dump())
 

@@ -12,6 +12,11 @@ def list_events() -> list[dict]:
     return event_controller.list_events()
 
 
+@router.get("/{event_id}")
+def get_event(event_id: str) -> dict:
+    return event_controller.get_event(event_id=event_id)
+
+
 @router.post("")
 def create_event(payload: EventCreateRequest, current_user: dict = Depends(require_roles("organizer"))) -> dict:
     return event_controller.create_event(payload=payload, organizer_id=current_user["_id"])
