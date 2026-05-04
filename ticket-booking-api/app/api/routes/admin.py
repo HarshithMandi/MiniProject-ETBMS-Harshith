@@ -7,7 +7,7 @@ router = APIRouter(prefix="/admin", tags=["Admin"])
 
 
 @router.get("/reports")
-def reports(_: dict = Depends(require_roles("admin"))) -> dict:
+def reports(_: dict = Depends(require_roles("admin"))) -> list[dict]:
     return admin_controller.get_reports()
 
 

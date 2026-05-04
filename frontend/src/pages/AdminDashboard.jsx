@@ -9,12 +9,12 @@ export const AdminDashboard = () => {
   const [message, setMessage] = useState('');
   const [tab, setTab] = useState('reports'); // 'reports' or 'users'
 
-  const { data: reports, loading: reportsLoading } = useFetch(
+  const { data: reports, loading: reportsLoading, error: reportsError } = useFetch(
     () => adminApi.getReports(),
     []
   );
 
-  const { data: users, loading: usersLoading } = useFetch(
+  const { data: users, loading: usersLoading, error: usersError } = useFetch(
     () => adminApi.getUsers(),
     [tab]
   );
@@ -35,7 +35,7 @@ export const AdminDashboard = () => {
   };
 
   const reportColumns = [
-    { key: '_id', label: 'Booking ID' },
+    { key: 'booking_id', label: 'Booking ID' },
     { key: 'event_title', label: 'Event' },
     { key: 'user_email', label: 'Customer' },
     {
@@ -127,6 +127,7 @@ export const AdminDashboard = () => {
         {/* Revenue Reports */}
         {tab === 'reports' && (
           <div className="space-y-6">
+            {reportsError && <ErrorMessage message={reportsError} />}
             {reportsLoading ? (
               <Loader message="Loading reports..." />
             ) : reports && reports.length > 0 ? (
@@ -182,6 +183,7 @@ export const AdminDashboard = () => {
         {/* Users Management */}
         {tab === 'users' && (
           <div className="bg-white rounded-lg shadow-md p-6">
+            {usersError && <ErrorMessage message={usersError} />}
             {usersLoading ? (
               <Loader message="Loading users..." />
             ) : users && users.length > 0 ? (
